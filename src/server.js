@@ -1,18 +1,15 @@
 var mysql      = require('mysql');
-
 // host should be localhost for local development env
 // use nginx port mapping later.
-var connection = mysql.createConnection({
-  host     : 'mysql',
-  user     : 'root',
-  password : 'my-secret-pw',
-  database : 'my_resume'
-});
+var config = require('./config.js')
+var connection = mysql.createConnection(config);
 
+var cors = require('cors');
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 
-var bodyParser = require('body-parser');
+app.use(cors());
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
