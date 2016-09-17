@@ -1,9 +1,13 @@
 build:
-	docker build -f Dockerfile -t node_server .
+	docker build -f Dockerfile -t b.gcr.io/rugged-cooler-143304.appspot.com/express_server .
 
 start:
-	docker run -d -p 3000:3000 --link mysql --name node node_server
+	docker run -d -p 3000:3000 --name express_server b.gcr.io/rugged-cooler-143304.appspot.com/express_server
 
 clean:
-	docker rm $$(docker ps -q -f status=exited)
-	docker rmi -f $$(docker images -qa)
+	docker rm $$(docker ps -q -f status=exited) || echo 'true'
+	docker rmi -f $$(docker images -qa) || echo 'true'
+	docker volume rm $$(docker volume ls -qf dangling=true) || echo 'true'
+
+push:
+	gcloud docker push b.gcr.io/rugged-cooler-143304.appspot.com/express_server

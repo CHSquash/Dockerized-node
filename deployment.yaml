@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-node-express
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-node-express
+    spec:
+      containers:
+      - name: my-node-express
+        image: b.gcr.io/rugged-cooler-143304.appspot.com/express_server
+        ports:
+        - containerPort: 3000
+          hostPort: 3000
