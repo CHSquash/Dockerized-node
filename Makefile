@@ -6,7 +6,7 @@ start:
 
 clean:
 	docker rm $$(docker ps -q -f status=exited) || echo 'true'
-	docker rmi -f $$(docker images -qa) || echo 'true'
+	docker rmi $$(docker images -q --filter "dangling=true") || echo 'true'
 	docker volume rm $$(docker volume ls -qf dangling=true) || echo 'true'
 
 push:
