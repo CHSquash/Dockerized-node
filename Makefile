@@ -9,5 +9,12 @@ clean:
 	docker rmi $$(docker images -q --filter "dangling=true") || echo 'true'
 	docker volume rm $$(docker volume ls -qf dangling=true) || echo 'true'
 
-push:
+push: kube-delete
 	gcloud docker push b.gcr.io/rugged-cooler-143304.appspot.com/express_server
+	kubectl create -f deployment.yaml
+	kubectl create -f service.yaml
+
+kube-delete:
+	kubectl delete -f deployment.yaml || echo 'true'
+	kubectl delete -f service.yaml || echo 'true'
+	sleep 2s
